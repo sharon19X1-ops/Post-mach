@@ -1,0 +1,22 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches: [main]
+    paths: ["frontend/**"]
+
+jobs:
+  deploy:
+    name: Deploy to Cloudflare Pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken:     ${{ secrets.CF_API_TOKEN }}
+          accountId:    e56be8a5a764432baaaea08f475f9636
+          projectName:  post-machine-frontend
+          directory:    frontend
+          gitHubToken:  ${{ secrets.GITHUB_TOKEN }}

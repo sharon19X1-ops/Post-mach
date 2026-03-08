@@ -1,0 +1,67 @@
+# ─────────────────────────────────────────────────────────────────
+# Post Machine — Cloudflare Worker Configuration
+# Account: e56be8a5a764432baaaea08f475f9636
+# ─────────────────────────────────────────────────────────────────
+
+name                 = "post-machine-api"
+main                 = "src/index.js"
+compatibility_date   = "2024-09-23"
+compatibility_flags  = ["nodejs_compat"]
+account_id           = "e56be8a5a764432baaaea08f475f9636"
+
+# ── KV Namespaces ────────────────────────────────────────────────
+# Create with: wrangler kv:namespace create CACHE
+# Create with: wrangler kv:namespace create SESSIONS
+[[kv_namespaces]]
+binding  = "CACHE"
+id       = "REPLACE_WITH_CACHE_KV_ID"
+
+[[kv_namespaces]]
+binding  = "SESSIONS"
+id       = "REPLACE_WITH_SESSIONS_KV_ID"
+
+# ── D1 Database ──────────────────────────────────────────────────
+# Create with: wrangler d1 create post-machine-db
+[[d1_databases]]
+binding       = "DB"
+database_name = "post-machine-db"
+database_id   = "REPLACE_WITH_D1_DATABASE_ID"
+
+# ── AI Binding ───────────────────────────────────────────────────
+[ai]
+binding = "AI"
+
+# ── Environment Variables (non-secret) ───────────────────────────
+[vars]
+APP_ENV          = "production"
+APP_NAME         = "Post Machine"
+ALLOWED_ORIGIN   = "https://REPLACE_WITH_YOUR_DOMAIN.com"
+SESSION_TTL_SECS = "28800"   # 8 hours
+CACHE_TTL_SECS   = "1800"    # 30 min discovery cache
+ARTICLE_TTL_SECS = "3600"    # 1 hour article cache
+MAX_BODY_BYTES   = "51200"   # 50 KB request limit
+
+# ── Secrets (set via CLI — never commit values) ───────────────────
+# wrangler secret put JWT_SECRET
+# wrangler secret put BRAVE_SEARCH_API_KEY
+# wrangler secret put RESEND_API_KEY
+# wrangler secret put TELEGRAM_BOT_TOKEN
+
+# ── Routes ───────────────────────────────────────────────────────
+# Binds /api/* on your custom domain to this Worker
+[[routes]]
+pattern   = "REPLACE_WITH_YOUR_DOMAIN.com/api/*"
+zone_name = "REPLACE_WITH_YOUR_DOMAIN.com"
+
+# ── Cron Triggers ────────────────────────────────────────────────
+# Daily log purge at 3:00 AM UTC
+[triggers]
+crons = ["0 3 * * *"]
+
+# ── Observability ────────────────────────────────────────────────
+[observability]
+enabled = true
+
+# ── Development overrides ────────────────────────────────────────
+[env.development]
+vars = { APP_ENV = "development", ALLOWED_ORIGIN = "http://localhost:5173" }

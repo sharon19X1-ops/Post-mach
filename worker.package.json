@@ -1,0 +1,20 @@
+{
+  "name": "post-machine-worker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev":    "wrangler dev --local",
+    "deploy": "wrangler deploy",
+    "db:init": "wrangler d1 execute post-machine-db --file=./schema.sql",
+    "db:init:local": "wrangler d1 execute post-machine-db --local --file=./schema.sql",
+    "secrets": "node scripts/set-secrets.js",
+    "logs":   "wrangler tail"
+  },
+  "dependencies": {
+    "hono": "^4.4.0",
+    "zod":  "^3.23.8"
+  },
+  "devDependencies": {
+    "wrangler": "^3.60.0"
+  }
+}
