@@ -4,8 +4,8 @@
  * POST /api/share/telegram
  */
 import { z }                        from 'zod';
-import { createLogger, LOG_SOURCE } from '../lib/logger.js';
-import { sha256, generateId }       from '../lib/auth.js';
+import { createLogger, LOG_SOURCE } from './logger.js';
+import { sha256, generateId }       from './auth.lib.js';
 
 const EmailSchema = z.object({
   to:      z.string().email().max(254),

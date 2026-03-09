@@ -3,7 +3,7 @@
  * Requires: authenticated session
  */
 import { z }                        from 'zod';
-import { createLogger, LOG_SOURCE } from '../lib/logger.js';
+import { createLogger, LOG_SOURCE } from './logger.js';
 
 const Schema = z.object({
   topic: z.string().min(2).max(200).trim(),
@@ -69,7 +69,7 @@ async function hashKey(str) {
 async function expandTopic(env, topic, log) {
   try {
     const r = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
-      prompt: `Generate 4 web search queries for: "${topic}". Return ONLY a JSON array of strings, no preamble.`,
+      prompt: `Generate 4 web search queries for the following topic: ${JSON.stringify(topic)}. Return ONLY a JSON array of strings, no preamble.`,
       max_tokens: 200,
     });
     const q = JSON.parse(r.response);

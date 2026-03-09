@@ -5,21 +5,43 @@
 import { Hono }                from 'hono';
 import { cors }                from 'hono/cors';
 import { secureHeaders }       from 'hono/secure-headers';
-import { createLogger, LOG_SOURCE, purgeLogs } from './lib/logger.js';
-import { requireAuth }         from './lib/auth.js';
-import { handleRegister, handleLogin, handleLogout, handleMe } from './routes/auth.js';
-import { handleDiscover }      from './routes/discover.js';
-import { handleArticle }       from './routes/article.js';
-import { handleShareEmail, handleShareTelegram } from './routes/share.js';
+import { createLogger, LOG_SOURCE, purgeLogs } from './logger.js';
+import { requireAuth }         from './auth.lib.js';
+import { handleRegister, handleLogin, handleLogout, handleMe } from './auth.routes.js';
+import { handleDiscover }      from './discover.js';
+import { handleArticle }       from './article.js';
+import { handleShareEmail, handleShareTelegram } from './share.js';
 
 const app = new Hono();
+
+// ── Validation middleware: ensure critical env vars are set ────────
+app.use('*', async (ctx, next) => {
+  // Check required config on first request (lazy initialization)
+  if (!ctx.get('configValidated')) {
+    const required = ['ALLOWED_ORIGIN', 'JWT_SECRET'];
+    const missing = required.filter(key => !ctx.env[key] || 
+      (ctx.env[key].includes('REPLACE_WITH_') && ctx.env.APP_ENV !== 'development'));
+    
+    if (missing.length > 0) {
+      console.error('[ERROR] Missing critical environment variables:', missing);
+      ctx.set('configValidated', false);
+      return ctx.json({ error: 'Server misconfigured' }, 500);
+    }
+    
+    ctx.set('configValidated', true);
+  }
+  await next();
+});
 
 // ── Security headers ──────────────────────────────────────────────
 app.use('*', secureHeaders());
 
 // ── CORS ──────────────────────────────────────────────────────────
 app.use('/api/*', async (ctx, next) => {
-  const origin = ctx.env.ALLOWED_ORIGIN ?? '';
+  const origin = ctx.env.ALLOWED_ORIGIN;
+  if (!origin) {
+    return ctx.json({ error: 'Server misconfigured: ALLOWED_ORIGIN not set' }, 500);
+  }
   return cors({
     origin,
     allowMethods:  ['GET','POST','OPTIONS'],
@@ -119,7 +141,7 @@ app.post('/api/share/telegram',   handleShareTelegram);
 
 // ── Admin / monitoring ────────────────────────────────────────────
 app.get('/api/admin/logs', async ctx => {
-  const { queryLogs } = await import('./lib/logger.js');
+  const { queryLogs } = await import('./logger.js');
   const level  = Number(ctx.req.query('level')  ?? 30);
   const limit  = Number(ctx.req.query('limit')  ?? 100);
   const source =        ctx.req.query('source');

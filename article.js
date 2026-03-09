@@ -2,7 +2,7 @@
  * Post Machine — POST /api/article
  */
 import { z }                        from 'zod';
-import { createLogger, LOG_SOURCE } from '../lib/logger.js';
+import { createLogger, LOG_SOURCE } from './logger.js';
 
 const Schema = z.object({ url: z.string().url().max(2048) });
 

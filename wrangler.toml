@@ -4,7 +4,7 @@
 # ─────────────────────────────────────────────────────────────────
 
 name                 = "post-machine-api"
-main                 = "src/index.js"
+main                 = "index.js"
 compatibility_date   = "2024-09-23"
 compatibility_flags  = ["nodejs_compat"]
 account_id           = "e56be8a5a764432baaaea08f475f9636"

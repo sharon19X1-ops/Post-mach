@@ -6,14 +6,14 @@
  * GET  /api/auth/me
  */
 import { z }                             from 'zod';
-import { createLogger, LOG_SOURCE }      from '../lib/logger.js';
+import { createLogger, LOG_SOURCE }      from './logger.js';
 import {
   hashPassword, verifyPassword,
   createSession, revokeSession,
   setSessionCookie, clearSessionCookie,
   getSessionIdFromCookie,
   generateId, sha256,
-}                                        from '../lib/auth.js';
+}                                        from './auth.lib.js';
 
 // ── Zod schemas ───────────────────────────────────────────────────
 const RegisterSchema = z.object({
@@ -48,7 +48,8 @@ export async function handleRegister(ctx) {
 
   if (existing) {
     log.warn('Register: email already exists', { emailHash: await sha256(email) });
-    return ctx.json({ error: 'An account with this email already exists' }, 409);
+    // ⚠️ Generic error to prevent account enumeration
+    return ctx.json({ error: 'Registration failed. Please try again.' }, 400);
   }
 
   const { hash, salt } = await hashPassword(password);
