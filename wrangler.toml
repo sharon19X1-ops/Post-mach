@@ -47,7 +47,7 @@ crons = ["0 3 * * *"]
 [observability]
 enabled = true
 
-# Environment variables to add in Cloudflare dashboard:
+Environment variables to add in Cloudflare dashboard:
 
 Variable Name          | Value
 -----------------------|----------------------------------
