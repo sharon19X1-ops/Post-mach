@@ -1,0 +1,11 @@
+{
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "@vercel/node"
+    }
+  },
+  "regions": ["iad1"],
+  "env": {
+    "APP_ENV": "production"
+  }
+}

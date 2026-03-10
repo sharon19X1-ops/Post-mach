@@ -1,6 +1,10 @@
 # ─────────────────────────────────────────────────────────────────
-# Post Machine — Cloudflare Worker Configuration
+# Post Machine — Cloudflare Worker Configuration (DEPRECATED)
 # Account: e56be8a5a764432baaaea08f475f9636
+#
+# ⚠️  DEPRECATED: This application has been migrated to Vercel
+# This file is kept for reference only. Do not use for deployment.
+# See VERCEL_MIGRATION_GUIDE.md for migration details.
 # ─────────────────────────────────────────────────────────────────
 
 # Post Machine — wrangler.toml

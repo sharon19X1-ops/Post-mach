@@ -57,13 +57,14 @@ database_id   = "YOUR_D1_DATABASE_ID"
 
 # Environment Variables
 [vars]
-ALLOWED_ORIGIN   = "https://yourdomain.com"  # Your actual domain
+ALLOWED_ORIGIN   = "https://dash.cloudflare.com/e56be8a5a764432baaaea08f475f9636/aipractitioner.info"
+  # Your actual domain
 # ... other vars OK as-is
 ```
 
 #### **2. Set Secrets**
 ```bash
-wrangler secret put JWT_SECRET
+wrangler secret put JWT_SECRET 
 wrangler secret put BRAVE_SEARCH_API_KEY
 wrangler secret put RESEND_API_KEY
 wrangler secret put TELEGRAM_BOT_TOKEN
