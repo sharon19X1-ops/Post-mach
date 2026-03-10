@@ -47,15 +47,16 @@ crons = ["0 3 * * *"]
 [observability]
 enabled = true
 
-Environment variables to add in Cloudflare dashboard:
+# Environment variables to add in Cloudflare dashboard:
 
 Variable Name          | Value
 -----------------------|----------------------------------
-JWT_SECRET             | tjbt7kDfDpULN%OSt!^#AI9Fo7t88@GJ9^DZLB!0iR*u@LJlVQYhP1oT0orUeF5y
+JWT_SECRET             | tjbt7kDfDpULN%OSt!^#AI9Fo7t88@GJ9^DZLB!0iR*u@LJlVQYhP1oT0orUeF5
 BRAVE_SEARCH_API_KEY   | BSAZMCG2vrq2Ym0E-wnzGXE3ca1UQ9j
 RESEND_API_KEY         | re_MEAnD5pA_KfGPzafPJT7ABdrQGy5qYHeR
 TELEGRAM_BOT_TOKEN     | 8666871046:AAF7vyWCj0Kly6XixZynIXKdzytGlwCk8o8
 ALLOWED_ORIGIN         | https://https://dash.cloudflare.com/e56be8a5a764432baaaea08f475f9636/aipractitioner.info
+
 
 # ── Secrets (set via CLI — never commit values) ───────────────────
 # wrangler secret put JWT_SECRET
