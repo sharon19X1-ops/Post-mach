@@ -7,7 +7,6 @@ compatibility_date  = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 account_id          = "e56be8a5a764432baaaea08f475f9636"
 
-# ── KV Namespaces ─────────────────────────────────────────────────
 [[kv_namespaces]]
 binding = "CACHE"
 id      = "0f586cd29ed14110bbdb7397baadb2f9"
@@ -16,17 +15,14 @@ id      = "0f586cd29ed14110bbdb7397baadb2f9"
 binding = "SESSIONS"
 id      = "4dd4b60cb50c4baa9da1c4b34286a0f4"
 
-# ── D1 Database ───────────────────────────────────────────────────
 [[d1_databases]]
 binding       = "DB"
 database_name = "post-machine-db"
 database_id   = "1e316cae-0675-4eab-9f1b-9a098652cf6d"
 
-# ── AI Binding ────────────────────────────────────────────────────
 [ai]
 binding = "AI"
 
-# ── Environment Variables ─────────────────────────────────────────
 [vars]
 APP_ENV          = "production"
 APP_NAME         = "Post Machine"
@@ -36,43 +32,14 @@ CACHE_TTL_SECS   = "1800"
 ARTICLE_TTL_SECS = "3600"
 MAX_BODY_BYTES   = "51200"
 
-# ── Routes ────────────────────────────────────────────────────────
 [[routes]]
 pattern   = "aipractitioner.info/api/*"
 zone_name = "aipractitioner.info"
 
-# ── Cron Triggers ─────────────────────────────────────────────────
 [triggers]
 crons = ["0 3 * * *"]
 
-# ── Observability ─────────────────────────────────────────────────
 [observability]
 enabled = true
+```
 
-
-
-
-# ── Secrets (set via CLI — never commit values) ───────────────────
-# wrangler secret put JWT_SECRET
-# wrangler secret put BRAVE_SEARCH_API_KEY
-# wrangler secret put RESEND_API_KEY
-# wrangler secret put TELEGRAM_BOT_TOKEN
-
-# ── Routes ───────────────────────────────────────────────────────
-# Binds /api/* on your custom domain to this Worker
-[[routes]]
-pattern   = "REPLACE_WITH_YOUR_DOMAIN.com/api/*"
-zone_name = "REPLACE_WITH_YOUR_DOMAIN.com"
-
-# ── Cron Triggers ────────────────────────────────────────────────
-# Daily log purge at 3:00 AM UTC
-[triggers]
-crons = ["0 3 * * *"]
-
-# ── Observability ────────────────────────────────────────────────
-[observability]
-enabled = true
-
-# ── Development overrides ────────────────────────────────────────
-[env.development]
-vars = { APP_ENV = "development", ALLOWED_ORIGIN = "http://localhost:5173" }
