@@ -41,5 +41,4 @@ crons = ["0 3 * * *"]
 
 [observability]
 enabled = true
-```
 
